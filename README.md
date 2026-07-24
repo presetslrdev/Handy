@@ -418,6 +418,35 @@ Handy can auto-discover custom Whisper GGML models placed in the `models` direct
 - The model must be a valid Whisper GGML format (`.bin` file)
 - Model name is derived from the filename (e.g., `my-custom-model.bin` → "My Custom Model")
 
+### Changing Model Download Location (Windows)
+
+Handy stores downloaded models on the system drive (`C:`) by default. Because these files can be large (1–6 GB), you may want to move them to the Handy installation directory or another drive.
+
+A bundled script, `scripts/redirect_models.bat`, handles this by moving existing models and setting up a junction and environment variable so new models download to your chosen path.
+
+```mermaid
+flowchart TD
+    A[Handy Downloads Model] --> B{Storage Check}
+    B -- Default --> C[C:\Users\...\]
+    B -- Redirected --> D[Your Custom Folder]
+    
+    C --> E[SSD Fills Up]
+    D --> F[Space Saved on C:]
+```
+
+**How to use:**
+1. **Close Handy** if it is running.
+2. Open a Command Prompt (`cmd`) or PowerShell.
+3. Run the script. To store models in the same directory as the script:
+   ```bat
+   scripts\redirect_models.bat
+   ```
+   Or to specify a custom folder:
+   ```bat
+   scripts\redirect_models.bat E:\AI\Models
+   ```
+4. Restart Handy.
+
 ### Linux Startup Crashes or Instability
 
 If Handy fails to start reliably on Linux — for example, it crashes shortly after launch, never shows its window, or reports a Wayland protocol error — try the steps below in order.
