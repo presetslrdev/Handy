@@ -425,13 +425,28 @@ Handy stores downloaded models on the system drive (`C:`) by default. Because th
 A bundled script, `scripts/redirect_models.bat`, handles this by moving existing models and setting up a junction and environment variable so new models download to your chosen path.
 
 ```mermaid
-flowchart TD
-    A[Handy Downloads Model] --> B{Storage Check}
-    B -- Default --> C[C:\Users\...\]
-    B -- Redirected --> D[Your Custom Folder]
+flowchart LR
+    classDef defaultStyle fill:#f9f9f9,stroke:#333,stroke-width:1px,color:#333;
+    classDef highlight fill:#e1f5fe,stroke:#039be5,stroke-width:2px,color:#000;
+    classDef warning fill:#ffebee,stroke:#e53935,stroke-width:2px,color:#000;
+    classDef success fill:#e8f5e9,stroke:#43a047,stroke-width:2px,color:#000;
+
+    A([🎙️ Handy App]) -->|Downloads| B{Storage Path}
     
-    C --> E[SSD Fills Up]
-    D --> F[Space Saved on C:]
+    B -->|Without Script| C[Drive C: System]
+    C --> D[(Legacy: AppData/models)]
+    C --> E[(HF Hub: .cache/huggingface)]
+    D & E --> F[⚠️ SSD Space Fills Up]
+    
+    B -->|With Script| G[Custom Drive e.g., D:]
+    G --> H[(Junction -> Custom/models)]
+    G --> I[(HF_HOME -> Custom/hf_cache)]
+    H & I --> J[✅ System Drive Saved]
+
+    class A defaultStyle;
+    class B highlight;
+    class F warning;
+    class J success;
 ```
 
 **How to use:**
